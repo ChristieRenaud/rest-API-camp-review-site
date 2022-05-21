@@ -1,6 +1,6 @@
 const express = require('express')
-const { compileClientWithDependenciesTracked } = require('jade/lib')
 const Campsite = require('../models/campsite')
+
 const campsiteRouter = express.Router()
 
 campsiteRouter
