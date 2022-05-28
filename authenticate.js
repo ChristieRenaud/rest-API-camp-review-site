@@ -6,10 +6,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt
 const jwt = require('jsonwebtoken')
 
 const config = require('./config.js')
-
-exports.local = passport.use(new LocalStrategy(User.authenticate()))
-passport.serializeUser(User.serializeUser())
-passport.deserializeUser(User.deserializeUser())
+const { request } = require('./app')
 
 exports.getToken = (user) => {
   return jwt.sign(user, config.secretKey, { expiresIn: 3600 })
@@ -35,3 +32,16 @@ exports.jwtPassport = passport.use(
 )
 
 exports.verifyUser = passport.authenticate('jwt', { session: false })
+
+exports.verifyAdmin = (req, res, next) => {
+  if (req.user.admin) {
+    return next()
+  } else {
+    const err = new Error('You are not authorized to perform this operation!')
+    return res.send(err.message)
+  }
+}
+
+exports.local = passport.use(new LocalStrategy(User.authenticate()))
+passport.serializeUser(User.serializeUser())
+passport.deserializeUser(User.deserializeUser())
