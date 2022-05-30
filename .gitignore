@@ -1,3 +1,5 @@
 node_modules
 .DS_Store
-journal
+mongodb/data/journal
+bin/server.key
+bin/server.cert
